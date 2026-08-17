@@ -1,0 +1,70 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+	--color-slate-50: #f8fafc;
+	--color-white: #ffffff;
+	--color-slate-900: #0f172a;
+	--color-slate-600: #475569;
+	--color-slate-200: #e2e8f0;
+	--color-blue-600: #2563eb;
+	--color-violet-600: #7c3aed;
+	--color-violet-50: #f5f3ff;
+	--color-green-600: #16a34a;
+	--color-slate-900-soft: rgba(15, 23, 42, 0.12);
+}
+
+.dark {
+	--color-slate-50: #020617;
+	--color-white: #0f172a;
+	--color-slate-900: #f8fafc;
+	--color-slate-600: #94a3b8;
+	--color-slate-200: #334155;
+	--color-blue-600: #60a5fa;
+	--color-violet-600: #a78bfa;
+	--color-violet-50: #020617;
+	--color-green-600: #4ade80;
+	--color-slate-900-soft: rgba(2, 6, 23, 0.45);
+}
+
+@layer base {
+	html {
+		-webkit-text-size-adjust: 100%;
+		scroll-behavior: smooth;
+	}
+
+	:root {
+		color-scheme: light;
+	}
+
+	.dark {
+		color-scheme: dark;
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		html {
+			scroll-behavior: auto;
+		}
+	}
+
+	body {
+		@apply min-h-screen bg-slate-50 text-slate-900 antialiased;
+		transition:
+			background-color 0.2s ease,
+			color 0.2s ease;
+	}
+
+	:focus-visible {
+		@apply outline-2 outline-offset-2 outline-blue-600;
+	}
+
+	::selection {
+		background-color: color-mix(
+			in srgb,
+			var(--color-blue-600) 35%,
+			transparent
+		);
+		color: var(--color-slate-50);
+	}
+}

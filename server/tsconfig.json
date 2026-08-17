@@ -1,0 +1,15 @@
+{
+	"compilerOptions": {
+		"strict": true,
+		"module": "nodenext",
+		"moduleResolution": "bundler",
+		"target": "esnext",
+		"lib": ["esnext"],
+		"types": ["node"],
+		"isolatedModules": true,
+		"noUncheckedSideEffectImports": true,
+		"skipLibCheck": true,
+		"esModuleInterop": true,
+		"ignoreDeprecations": "6.0"
+	}
+}
