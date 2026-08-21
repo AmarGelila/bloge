@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
 import { validationResult, matchedData } from "express-validator";
-import { Post } from "../generated/prisma/client";
+import { Post } from "@prisma/client";
 import prisma from "../lib/prisma";
-import { AuthenticatedRequest } from "../types";
+import { AuthenticatedRequest } from "../types/index";
 
 async function getPost(req: Request, res: Response) {
 	const { postId } = req.params;

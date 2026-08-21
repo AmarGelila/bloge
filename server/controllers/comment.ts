@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
 import { validationResult, matchedData } from "express-validator";
-import { Comment } from "../generated/prisma/client";
+import { Comment } from "@prisma/client";
 import prisma from "../lib/prisma";
-import { AuthenticatedRequest } from "../types";
+import { AuthenticatedRequest } from "../types/index";
 
 async function createComment(req: AuthenticatedRequest, res: Response) {
 	const errors = validationResult(req);

@@ -4,7 +4,7 @@ import { Strategy as JwtStrategy, ExtractJwt } from "passport-jwt";
 import { Strategy as GoogleStrategy } from "passport-google-oauth20";
 import { JwtPayload } from "jsonwebtoken";
 import prisma from "./prisma";
-import { GoogleProfile } from "../types";
+import { GoogleProfile } from "../types/index";
 
 const jwtOptions: StrategyOptionsWithSecret = {
 	jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),

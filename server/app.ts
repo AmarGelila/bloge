@@ -8,7 +8,12 @@ import mainRouter from "./routes/main";
 import { Request, Response, NextFunction } from "express";
 const app: Application = express();
 app.use(express.json());
-app.use(cors());
+app.use(
+	cors({
+		origin: process.env.CLIENT_URL,
+		credentials: true,
+	}),
+);
 app.use("/", mainRouter);
 app.use("/auth", authRouter);
 app.use("/posts", onlyUser, postRouter);

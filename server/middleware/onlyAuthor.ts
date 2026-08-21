@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { AuthenticatedRequest } from "../types";
+import { AuthenticatedRequest } from "../types/index";
 
 async function onlyAuthor(req: Request, res: Response, next: NextFunction) {
 	const user = (req as AuthenticatedRequest).user;

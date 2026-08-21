@@ -4,8 +4,8 @@ import {
 	createPost,
 	updatePost,
 	deletePost,
-	likePost, 
-	unLikePost
+	likePost,
+	unLikePost,
 } from "../controllers/post";
 import tryCatch from "../utils/tryCatch";
 import { postValidator } from "../utils/validators";
@@ -21,12 +21,10 @@ router
 	.put(postValidator, onlyAuthor, tryCatch(updatePost))
 	.delete(onlyAuthor, tryCatch(deletePost));
 
-router
-	.put("/:postId/like",onlyUser,tryCatch(likePost));
+router.put("/:postId/like", onlyUser, tryCatch(likePost));
 
-router
-	.put("/:postId/unlike",onlyUser,tryCatch(unLikePost));
-	
+router.put("/:postId/unlike", onlyUser, tryCatch(unLikePost));
+
 router.use("/:postId/comments", onlyUser, commentRouter);
 
 export default router;

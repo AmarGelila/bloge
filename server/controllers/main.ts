@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import prisma from "../lib/prisma";
-import { AuthenticatedRequest } from "../types";
+import { AuthenticatedRequest } from "../types/index";
 
 async function getPosts(_: Request, res: Response) {
 	const posts = await prisma.post.findMany({
