@@ -5,7 +5,7 @@ import onlyUser from "../middleware/onlyUser";
 
 const router = Router();
 
-router.get("/", tryCatch(getPosts));
+router.get("/posts", tryCatch(getPosts));
 router.get("/user", onlyUser, tryCatch(getUser));
 
 export default router;

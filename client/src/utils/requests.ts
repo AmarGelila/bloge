@@ -10,7 +10,7 @@ import type {
 } from "../types";
 
 export const postsRequest = (signal: AbortSignal) =>
-	apiClient.get("/", { signal });
+	apiClient.get("/posts", { signal });
 
 export const userRequest = (signal: AbortSignal) =>
 	apiAuthClient.get("/user", { signal });
@@ -47,10 +47,10 @@ export const editPostRequest = (
 export const deletePostRequest = (signal: AbortSignal, postId: number) =>
 	apiAuthClient.delete(`/posts/${postId}`, { signal });
 
-export const likePostRequest = (signal: AbortSignal , postId: number) => 
+export const likePostRequest = (signal: AbortSignal, postId: number) =>
 	apiAuthClient.put(`/posts/${postId}/like`, { signal });
 
-export const unlikePostRequest = (signal: AbortSignal , postId: number) => 
+export const unlikePostRequest = (signal: AbortSignal, postId: number) =>
 	apiAuthClient.put(`/posts/${postId}/unlike`, { signal });
 
 export const newCommentRequest = (
