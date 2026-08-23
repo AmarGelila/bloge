@@ -6,8 +6,6 @@
 	"main": "app.ts",
 	"scripts": {
 		"dev": "pnpm dlx tsx --watch --env-file=.env app.ts",
-		"build": "tsup",
-		"start": "node dist/app.js",
 		"postinstall": "prisma generate"
 	},
 	"keywords": [],
@@ -25,7 +23,6 @@
 		"@types/sanitize-html": "^2.16.1",
 		"@types/ws": "^8.18.1",
 		"dotenv": "^17.4.2",
-		"tsup": "^8.5.1",
 		"tsx": "^4.22.4",
 		"typescript": "^6.0.3"
 	},

@@ -1,12 +1,12 @@
 import { Router } from "express";
 
-import { commentValidator } from "../utils/validators";
-import tryCatch from "../utils/tryCatch";
+import { commentValidator } from "../utils/validators.js";
+import tryCatch from "../utils/tryCatch.js";
 import {
 	createComment,
 	updateComment,
 	deleteComment,
-} from "../controllers/comment";
+} from "../controllers/comment.js";
 
 const router = Router({ mergeParams: true });
 

@@ -1,6 +1,6 @@
 import { body } from "express-validator";
 import sanitizeHtml from "sanitize-html";
-import prisma from "../lib/prisma";
+import prisma from "../lib/prisma.js";
 
 function sanitizeRichText(value: string) {
 	return sanitizeHtml(value, {

@@ -6,12 +6,12 @@ import {
 	deletePost,
 	likePost,
 	unLikePost,
-} from "../controllers/post";
-import tryCatch from "../utils/tryCatch";
-import { postValidator } from "../utils/validators";
-import commentRouter from "./comment";
-import onlyUser from "../middleware/onlyUser";
-import onlyAuthor from "../middleware/onlyAuthor";
+} from "../controllers/post.js";
+import tryCatch from "../utils/tryCatch.js";
+import { postValidator } from "../utils/validators.js";
+import commentRouter from "./comment.js";
+import onlyUser from "../middleware/onlyUser.js";
+import onlyAuthor from "../middleware/onlyAuthor.js";
 const router = Router();
 
 router.post("/new", onlyAuthor, postValidator, tryCatch(createPost));

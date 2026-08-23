@@ -4,13 +4,19 @@ import { tokenStore } from "../store/token";
 
 const apiClient = axios.create({
 	baseURL: import.meta.env.VITE_API_BASE_URL,
-	headers: { "Content-Type": "application/json" },
+	headers: {
+		"Content-Type": "application/json",
+		"Access-Control-Allow-Origin": true,
+	},
 	timeout: 10000,
 });
 
 const apiAuthClient = axios.create({
 	baseURL: import.meta.env.VITE_API_BASE_URL,
-	headers: { "Content-Type": "application/json" },
+	headers: {
+		"Content-Type": "application/json",
+		"Access-Control-Allow-Origin": true,
+	},
 	timeout: 10000,
 });
 

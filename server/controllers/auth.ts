@@ -1,16 +1,16 @@
 import bcrypt from "bcryptjs";
 import { Request, Response } from "express";
 import { validationResult, matchedData } from "express-validator";
-import prisma from "../lib/prisma";
+import prisma from "../lib/prisma.js";
 import type {
 	AuthenticatedRequest,
 	PublicUser,
 	SignInData,
-} from "../types/index";
+} from "../types/index.js";
 import {
 	generateAccessToken,
 	generateRefreshToken,
-} from "../utils/jwtTokens";
+} from "../utils/jwtTokens.js";
 import jwt, { JwtPayload } from "jsonwebtoken";
 
 async function postSignUp(req: Request, res: Response) {

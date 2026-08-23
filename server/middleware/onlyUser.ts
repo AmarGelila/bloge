@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import passport from "passport";
-import { PublicUser } from "../types/index";
+import { PublicUser } from "../types/index.js";
 
 async function onlyUser(req: Request, res: Response, next: NextFunction) {
 	passport.authenticate(

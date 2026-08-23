@@ -1,22 +1,19 @@
-import "./lib/passport";
+import "./lib/passport.js";
 import express, { Application } from "express";
 import cors from "cors";
-import authRouter from "./routes/auth";
-import postRouter from "./routes/post";
-import onlyUser from "./middleware/onlyUser";
-import mainRouter from "./routes/main";
+import authRouter from "./routes/auth.js";
+import postRouter from "./routes/post.js";
+import onlyUser from "./middleware/onlyUser.js";
+import mainRouter from "./routes/main.js";
 import { Request, Response, NextFunction } from "express";
 const app: Application = express();
+app.use(express.json());
 app.use(
 	cors({
 		origin: process.env.CLIENT_URL,
 		credentials: true,
-		methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
-		allowedHeaders: ["Content-Type", "Authorization"],
 	}),
 );
-
-app.use(express.json());
 app.use("/", mainRouter);
 app.use("/auth", authRouter);
 app.use("/posts", onlyUser, postRouter);

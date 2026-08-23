@@ -20,10 +20,10 @@
 			]
 		}
 	],
-	"builds": [
+	"rewrites": [
 		{
-			"src": "dist/app.js",
-			"use": "@vercel/node"
+			"source": "/(.*)",
+			"destination": "/api/index"
 		}
 	],
 	"routes": [

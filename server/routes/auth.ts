@@ -1,16 +1,16 @@
 import passport from "passport";
 import { Router } from "express";
-import { signInValidator, signUpValidator } from "../utils/validators";
+import { signInValidator, signUpValidator } from "../utils/validators.js";
 import {
 	postSignIn,
 	postSignUp,
 	signOut,
 	refreshTokens,
 	googleAuthCallback,
-} from "../controllers/auth";
-import tryCatch from "../utils/tryCatch";
+} from "../controllers/auth.js";
+import tryCatch from "../utils/tryCatch.js";
 import cookieParser from "cookie-parser";
-import onlyUser from "../middleware/onlyUser";
+import onlyUser from "../middleware/onlyUser.js";
 
 const router = Router();
 
