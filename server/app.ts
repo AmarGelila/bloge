@@ -7,13 +7,15 @@ import onlyUser from "./middleware/onlyUser.js";
 import mainRouter from "./routes/main.js";
 import { Request, Response, NextFunction } from "express";
 const app: Application = express();
-app.use(express.json());
+
 app.use(
 	cors({
 		origin: process.env.CLIENT_URL,
 		credentials: true,
 	}),
 );
+
+app.use(express.json());
 app.use("/", mainRouter);
 app.use("/auth", authRouter);
 app.use("/posts", onlyUser, postRouter);
