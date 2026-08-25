@@ -73,7 +73,7 @@ export default function PostForm({
 					>
 						Content
 					</label>
-					<div className="overflow-hidden rounded-lg border border-slate-200 [&_.ql-editor]:min-h-70">
+					<div className="rounded-lg [&_.ql-editor]:h-70! [&_.ql-editor]:overflow-y-auto [&_.ql-editor]:custom-scrollbar">
 						<Controller
 							name="content"
 							control={control}

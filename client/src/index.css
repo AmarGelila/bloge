@@ -68,3 +68,30 @@
 		color: var(--color-slate-50);
 	}
 }
+
+@utility custom-scrollbar {
+	/* Firefox */
+	scrollbar-width: thin;
+	scrollbar-color: var(--color-slate-600) transparent;
+
+	/* WebKit (Chrome, Edge, Safari) */
+	&::-webkit-scrollbar {
+		width: 8px;
+		height: 8px;
+	}
+
+	&::-webkit-scrollbar-track {
+		background: transparent;
+	}
+
+	&::-webkit-scrollbar-thumb {
+		background-color: var(--color-slate-600);
+		border-radius: 9999px;
+		border: 2px solid transparent;
+		background-clip: content-box;
+
+		&:hover {
+			background-color: var(--color-slate-900);
+		}
+	}
+}

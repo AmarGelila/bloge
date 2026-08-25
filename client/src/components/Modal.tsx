@@ -24,8 +24,6 @@ function Modal({ children, setIsOpen }: ModalProps) {
 		};
 	}, []);
 
-	// Move focus into the dialog on open, trap Tab inside it,
-	// and restore focus to whatever triggered the modal on close.
 	useEffect(() => {
 		const previouslyFocused = document.activeElement as HTMLElement | null;
 		closeButtonRef.current?.focus();
@@ -59,14 +57,14 @@ function Modal({ children, setIsOpen }: ModalProps) {
 
 	return (
 		<div
-			className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm transition-all"
+			className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 px-4 py-8 backdrop-blur-sm transition-all"
 			onClick={() => setIsOpen(false)}
 		>
 			<div
 				ref={dialogRef}
 				role="dialog"
 				aria-modal="true"
-				className="relative w-full max-w-lg rounded-2xl bg-white p-6 shadow-xl transition-all"
+				className="relative flex max-h-[85vh] w-full max-w-lg flex-col overflow-hidden rounded-2xl bg-white shadow-xl transition-all"
 				onClick={(e) => e.stopPropagation()}
 			>
 				<button
@@ -74,11 +72,12 @@ function Modal({ children, setIsOpen }: ModalProps) {
 					type="button"
 					aria-label="Close modal"
 					onClick={() => setIsOpen(false)}
-					className="absolute right-3 top-3 flex h-8 w-8 items-center justify-center rounded-full text-slate-500 transition-colors hover:bg-slate-100 hover:text-slate-900 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-slate-100"
+					className="absolute right-4 top-4 z-10 flex h-8 w-8 items-center justify-center rounded-full bg-white/80 text-slate-500 backdrop-blur transition-colors hover:bg-slate-100 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-slate-100"
 				>
 					<Close />
 				</button>
-				{children}
+
+				<div className="min-h-0 flex-1 py-6 pl-6 pr-12">{children}</div>
 			</div>
 		</div>
 	);

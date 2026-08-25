@@ -1,5 +1,4 @@
 import type { PostCompProps } from "@/types";
-import DOMPurify from "dompurify";
 import "react-quill-new/dist/quill.snow.css";
 import { Link } from "react-router-dom";
 import { formatTimeAgo } from "@/utils/formatTime";
@@ -19,16 +18,6 @@ function PostComp({ post, isUser }: PostCompProps) {
 				>
 					{formatTimeAgo(postDate)}
 				</time>
-			</div>
-
-			<div className="relative -mt-1">
-				<div
-					className="ql-editor max-h-44 overflow-hidden text-sm leading-6 text-slate-700 dark:text-slate-100"
-					dangerouslySetInnerHTML={{
-						__html: DOMPurify.sanitize(post.content),
-					}}
-				/>
-				<div className="pointer-events-none absolute inset-x-0 bottom-0 h-8 bg-linear-to-t from-white/95 to-transparent" />
 			</div>
 
 			<footer className="mt-auto flex flex-col gap-2 pt-2">

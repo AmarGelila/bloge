@@ -1,15 +1,14 @@
 import { useCallback, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import DOMPurify from "dompurify";
 import "react-quill-new/dist/quill.snow.css";
 import type { Comment, IsEditing } from "@/types";
-import { useToken, useUser } from "@/store";
+import { useUser } from "@/store";
 import { usePosts } from "@/store";
 import useAPIRequest from "@/hooks/apiRequest";
 import {
 	deletePostRequest,
 	likePostRequest,
-	signOutRequest,
 	unlikePostRequest,
 } from "@/utils/requests";
 import Modal from "@/components/Modal";
@@ -19,9 +18,9 @@ import EditComment from "@/components/comment/edit.tsx";
 import NewComment from "@/components/comment/new";
 import Error from "./error";
 import { formatTimeAgo } from "@/utils/formatTime";
-import ToggleTheme from "@/components/ThemeToggle";
 import toast from "react-hot-toast";
 import { Like, Unlike } from "@/assets/icons";
+import Header from "@/components/header";
 
 function PostPage() {
 	const { postId: strPostId } = useParams();
@@ -29,8 +28,7 @@ function PostPage() {
 	const navigate = useNavigate();
 	const [isEditing, setIsEditing] = useState<IsEditing>(false);
 
-	const { user, setUser, updateLikes } = useUser();
-	const setToken = useToken((state) => state.setToken);
+	const { user, updateLikes } = useUser();
 	const post = usePosts((state) => state.getPostById(Number(postId)));
 	const likePost = usePosts((state) => state.likePost);
 	const unlikePost = usePosts((state) => state.unlikePost);
@@ -42,15 +40,13 @@ function PostPage() {
 		useAPIRequest(likePostRequest);
 	const { execute: unlikeExecute, errorMessage: err3 } =
 		useAPIRequest(unlikePostRequest);
-	const { execute: signOutExecute, errorMessage: err4 } =
-		useAPIRequest(signOutRequest);
 
 	const postDate = new Date(post?.time || "");
 	const isUser = Boolean(user?.id);
 	const isAuthor = Boolean(user?.isAuthor);
 	const isLiked =
 		user?.likedPosts.find((ele) => ele.id === postId) !== undefined;
-	const errorMessage = err1 || err2 || err3 || err4;
+	const errorMessage = err1 || err2 || err3;
 
 	const handleDelete = useCallback(async () => {
 		await deleteExecute(postId);
@@ -98,38 +94,7 @@ function PostPage() {
 							/>
 						</Modal>
 					)}
-					<header className="mb-6 rounded-2xl border border-slate-200 bg-white/80 p-4 shadow-sm backdrop-blur transition-colors sm:p-5">
-						<nav className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-							<div className="flex items-center gap-4">
-								<Link
-									to="/"
-									className="transition-opacity hover:opacity-80"
-								>
-									<h1 className="inline-block bg-linear-to-r from-blue-600 via-violet-600 to-blue-600 bg-clip-text text-2xl font-extrabold tracking-tight text-transparent">
-										BloGE
-									</h1>
-								</Link>
-							</div>
-
-							<div className="flex flex-wrap items-center gap-3">
-								<>
-									<ToggleTheme />
-									<button
-										type="button"
-										className="rounded-md border border-red-200 bg-red-50 px-3 py-1.5 text-sm text-red-700 transition-colors hover:bg-red-100 dark:border-red-900/50 dark:bg-red-950/40 dark:text-red-400 dark:hover:bg-red-900/60"
-										onClick={async () => {
-											await signOutExecute();
-											setToken(null);
-											setUser(null);
-											navigate("/sign-in");
-										}}
-									>
-										Sign Out
-									</button>
-								</>
-							</div>
-						</nav>
-					</header>
+					<Header />
 					{post && (
 						<article className="mx-auto flex w-full max-w-4xl flex-col gap-8 px-4 py-6 sm:px-6 lg:px-8">
 							<section className="space-y-4 rounded-3xl border border-slate-200 bg-white/95 p-4 shadow-sm transition-colors dark:border-slate-700 dark:bg-slate-800/60 sm:p-6">
@@ -167,7 +132,7 @@ function PostPage() {
 									</time>
 								</div>
 								<div
-									className="ql-editor mt-4 prose prose-slate max-w-none text-slate-700 dark:text-slate-100"
+									className="ql-editor mt-4 prose prose-slate max-w-none text-slate-700 dark:text-slate-100 overflow-x-auto custom-scrollbar"
 									dangerouslySetInnerHTML={{
 										__html: DOMPurify.sanitize(
 											post.content,
