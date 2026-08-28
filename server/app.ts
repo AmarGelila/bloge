@@ -6,6 +6,7 @@ import postRouter from "./routes/post.js";
 import onlyUser from "./middleware/onlyUser.js";
 import mainRouter from "./routes/main.js";
 import { Request, Response, NextFunction } from "express";
+import path from "path";
 const app: Application = express();
 
 app.use(
@@ -14,8 +15,12 @@ app.use(
 		credentials: true,
 	}),
 );
-
 app.use(express.json());
+
+app.get("/openapi.yaml", (req, res) => {
+	res.sendFile(path.resolve("docs/openapi.yaml"));
+});
+app.use("/docs", express.static("docs"));
 app.use("/", mainRouter);
 app.use("/auth", authRouter);
 app.use("/posts", onlyUser, postRouter);
