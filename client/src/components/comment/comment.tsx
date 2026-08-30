@@ -22,19 +22,17 @@ function Comment({ comment, isAuthor, setIsEditing }: CommentCompProps) {
 	}, [comment.id, comment.postId, deleteComment, deleteExecute]);
 
 	return (
-		<li className="rounded-3xl border border-slate-200 bg-white/95 p-4 shadow-sm">
+		<li className="relative rounded-3xl border border-slate-200 bg-white/95 p-4 shadow-sm">
 			{(isAuthor || isUserComment) && (
-				<div className="mb-2 flex justify-end gap-2">
-					{isAuthor ? (
-						<button
-							className="inline-flex items-center gap-1.5 rounded-full border border-red-200 bg-red-50 px-3 py-1.5 text-sm font-medium text-red-700 transition-colors hover:bg-red-100 dark:border-red-900/50 dark:bg-red-950/40 dark:text-red-400 dark:hover:bg-red-900/60"
-							type="button"
-							onClick={handleDelete}
-						>
-							<Bin />
-							Delete
-						</button>
-					) : null}
+				<div className="flex justify-end gap-2">
+					<button
+						className="inline-flex items-center gap-1.5 rounded-full border border-red-200 bg-red-50 px-3 py-1.5 text-sm font-medium text-red-700 transition-colors hover:bg-red-100 dark:border-red-900/50 dark:bg-red-950/40 dark:text-red-400 dark:hover:bg-red-900/60"
+						type="button"
+						onClick={handleDelete}
+					>
+						<Bin />
+						Delete
+					</button>
 
 					{isUserComment && (
 						<button

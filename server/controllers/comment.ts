@@ -40,8 +40,21 @@ async function updateComment(req: Request, res: Response) {
 	return res.status(201).json(comment);
 }
 
-async function deleteComment(req: Request, res: Response) {
+async function deleteComment(req: AuthenticatedRequest, res: Response) {
+	const userId = Number(req.user.id);
 	const commentId = Number(req.params.commentId);
+	const comment = await prisma.comment.findUnique({
+		where: { id: commentId },
+	});
+
+	if (
+		comment?.userId !== userId &&
+		req.user.email !== process.env.AUTHOR_EMAIL
+	)
+		return res
+			.status(401)
+			.json({ error: "You are not authorized to do this action" });
+
 	await prisma.comment.delete({ where: { id: commentId } });
 	if (!commentId)
 		return res.status(400).json({ error: "Invalid Comment ID" });
