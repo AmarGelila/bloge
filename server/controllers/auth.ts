@@ -13,6 +13,16 @@ import {
 } from "../utils/jwtTokens.js";
 import jwt, { JwtPayload } from "jsonwebtoken";
 
+const isProd = process.env.NODE_ENV === "production";
+
+const refreshCookieOptions = {
+	httpOnly: true,
+	sameSite: (isProd ? "none" : "lax") as "none" | "lax",
+	secure: isProd,
+	maxAge: 7 * 24 * 60 * 60 * 1000,
+};
+
+console.log(refreshCookieOptions);
 async function postSignUp(req: Request, res: Response) {
 	const errors = validationResult(req);
 	if (!errors.isEmpty())
@@ -61,12 +71,7 @@ async function postSignIn(req: Request, res: Response) {
 		data: { refreshToken },
 	});
 
-	res.cookie("refreshToken", refreshToken, {
-		httpOnly: true,
-		sameSite: "none",
-		secure: process.env.NODE_ENV === "production",
-		maxAge: 7 * 24 * 60 * 60 * 1000,
-	});
+	res.cookie("refreshToken", refreshToken, refreshCookieOptions);
 	res.status(200).json({ token: accessToken });
 }
 
@@ -78,55 +83,48 @@ async function signOut(req: Request, res: Response) {
 		data: { refreshToken: null },
 	});
 
-	res.clearCookie("refreshToken", {
-		httpOnly: true,
-		sameSite: "none",
-		secure: process.env.NODE_ENV === "production",
-	});
+	res.clearCookie("refreshToken", refreshCookieOptions);
 
-	res.status(204).json();
+	res.status(204).end();
 }
 
 async function refreshTokens(req: Request, res: Response) {
+	console.log("Jere");
 	const oldRefreshToken = req.cookies.refreshToken;
+	console.log(oldRefreshToken);
 	if (!oldRefreshToken) {
-		return res.status(401).json({
-			code: "TOKEN_EXPIRED",
-		});
+		return res.status(401).json({ code: "TOKEN_EXPIRED" });
 	}
 
-	const { id: userId, email } = jwt.verify(
-		oldRefreshToken,
-		process.env.JWT_REFRESH_SECRET as string,
-	) as JwtPayload;
-
+	let payload: JwtPayload;
+	try {
+		payload = jwt.verify(
+			oldRefreshToken,
+			process.env.JWT_REFRESH_SECRET as string,
+		) as JwtPayload;
+		console.log(payload);
+	} catch {
+		res.clearCookie("refreshToken", refreshCookieOptions);
+		return res.status(401).json({ code: "TOKEN_EXPIRED" });
+	}
+	const { id: userId, email } = payload;
 	if (!userId || !email) {
-		return res.status(401).json({
-			code: "TOKEN_EXPIRED",
-		});
+		return res.status(401).json({ code: "TOKEN_EXPIRED" });
 	}
-
 	const user = await prisma.user.findUnique({
-		where: { id: userId },
+		where: { id: Number(userId) },
 		select: { refreshToken: true },
 	});
 
 	if (!user || user.refreshToken !== oldRefreshToken)
-		return res.status(401).json({
-			code: "TOKEN_EXPIRED",
-		});
+		return res.status(401).end();
 
 	const accessToken = generateAccessToken(userId, email);
 	const refreshToken = generateRefreshToken(userId, email);
 
 	await prisma.user.update({ where: { id: userId }, data: { refreshToken } });
 
-	res.cookie("refreshToken", refreshToken, {
-		httpOnly: true,
-		sameSite: "none",
-		secure: process.env.NODE_ENV === "production",
-		maxAge: 7 * 24 * 60 * 60 * 1000,
-	});
+	res.cookie("refreshToken", refreshToken, refreshCookieOptions);
 
 	res.status(200).json({ token: accessToken });
 }
@@ -146,12 +144,7 @@ async function googleAuthCallback(req: Request, res: Response) {
 		data: { refreshToken },
 	});
 
-	res.cookie("refreshToken", refreshToken, {
-		httpOnly: true,
-		sameSite: "none",
-		secure: process.env.NODE_ENV === "production",
-		maxAge: 7 * 24 * 60 * 60 * 1000,
-	});
+	res.cookie("refreshToken", refreshToken, refreshCookieOptions);
 
 	res.redirect(`${process.env.CLIENT_URL}/auth-success#token=${accessToken}`);
 }

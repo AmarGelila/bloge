@@ -6,8 +6,9 @@ const apiClient = axios.create({
 	baseURL: import.meta.env.VITE_API_BASE_URL,
 	headers: {
 		"Content-Type": "application/json",
-		"Access-Control-Allow-Origin": true,
 	},
+	withCredentials: true,
+
 	timeout: 10000,
 });
 
@@ -15,8 +16,8 @@ const apiAuthClient = axios.create({
 	baseURL: import.meta.env.VITE_API_BASE_URL,
 	headers: {
 		"Content-Type": "application/json",
-		"Access-Control-Allow-Origin": true,
 	},
+	withCredentials: true,
 	timeout: 10000,
 });
 
@@ -59,6 +60,11 @@ apiAuthClient.interceptors.response.use(
 			try {
 				const refreshResponse = await axios.get("/auth/refresh-token", {
 					baseURL: import.meta.env.VITE_API_BASE_URL,
+					headers: {
+						"Content-Type": "application/json",
+					},
+					withCredentials: true,
+					timeout: 10000,
 				});
 				const newToken = refreshResponse.data.token;
 
