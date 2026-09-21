@@ -33,20 +33,23 @@ async function updateComment(req: AuthenticatedRequest, res: Response) {
 	if (!commentId)
 		return res.status(400).json({ error: "Invalid Comment ID" });
 
-	const comment = await prisma.comment.findUnique({
-		where: { id: commentId },
+	const updatedComments = await prisma.comment.updateManyAndReturn({
+		where:
+			req.user.email === process.env.AUTHOR_EMAIL
+				? { id: commentId }
+				: { id: commentId, userId },
+		data: {
+			content,
+		},
 	});
-	if (comment?.userId !== userId)
+
+	if (updatedComments.length === 0) {
 		return res
-			.status(401)
-			.json({ error: "You are not authorized to do this action" });
+			.status(404)
+			.json({ error: "Comment not found or unauthorized" });
+	}
 
-	const updatedComment = await prisma.comment.update({
-		where: { id: commentId },
-		data: { content },
-	});
-
-	return res.status(201).json(updatedComment);
+	return res.status(200).json(updatedComments[0]);
 }
 
 async function deleteComment(req: AuthenticatedRequest, res: Response) {
@@ -54,19 +57,20 @@ async function deleteComment(req: AuthenticatedRequest, res: Response) {
 	const commentId = Number(req.params.commentId);
 	if (!commentId)
 		return res.status(400).json({ error: "Invalid Comment ID" });
-	const comment = await prisma.comment.findUnique({
-		where: { id: commentId },
+
+	const result = await prisma.comment.deleteMany({
+		where:
+			req.user.email === process.env.AUTHOR_EMAIL
+				? { id: commentId }
+				: { id: commentId, userId },
 	});
 
-	if (
-		comment?.userId !== userId &&
-		req.user.email !== process.env.AUTHOR_EMAIL
-	)
+	if (result.count === 0) {
 		return res
-			.status(401)
-			.json({ error: "You are not authorized to do this action" });
+			.status(404)
+			.json({ error: "Comment not found or unauthorized" });
+	}
 
-	await prisma.comment.delete({ where: { id: commentId } });
 	res.status(200).end();
 }
 
