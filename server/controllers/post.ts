@@ -36,16 +36,15 @@ async function updatePost(req: Request, res: Response) {
 
 	const { title, content }: Post = matchedData(req);
 	const postId = Number(req.params.postId);
+	if (!postId)
+		return res.status(404).json({
+			error: "Post ID is not defined",
+		});
 	const post = await prisma.post.update({
 		where: { id: postId },
 		data: { title, content },
 		include: { comments: true, _count: { select: { likes: true } } },
 	});
-
-	if (!postId)
-		return res.status(404).json({
-			error: "Post ID is not defined",
-		});
 
 	res.status(201).json(post);
 }

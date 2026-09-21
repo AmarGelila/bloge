@@ -5,7 +5,7 @@ async function onlyAuthor(req: Request, res: Response, next: NextFunction) {
 	const user = (req as AuthenticatedRequest).user;
 	if (user.email !== (process.env.AUTHOR_EMAIL as string)) {
 		return res
-			.status(301)
+			.status(403)
 			.json({ message: "Only author is allowed to do this" });
 	}
 
