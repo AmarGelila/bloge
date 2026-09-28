@@ -13,7 +13,6 @@ function handleAPIErrors<T extends FieldValues>(
 		return;
 	}
 	if (isCancel(error)) {
-		console.log("Request Canelled");
 		return;
 	}
 	if (!error.response) {
@@ -31,7 +30,8 @@ function handleAPIErrors<T extends FieldValues>(
 			});
 		});
 	}
-	if (errorMessage) setErrorMessage(errorMessage);
+	if (errorMessage) return setErrorMessage(errorMessage);
+	throw error;
 }
 
 export default handleAPIErrors;

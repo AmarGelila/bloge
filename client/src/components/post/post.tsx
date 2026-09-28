@@ -18,6 +18,14 @@ function PostComp({ post, isUser }: PostCompProps) {
 				>
 					{formatTimeAgo(postDate)}
 				</time>
+				<div className="flex flex-wrap items-center gap-2 pt-3">
+					<span className="inline-flex items-center gap-1.5 rounded-full bg-sky-100 px-3 py-1 text-xs font-semibold text-sky-800">
+						<span>{post?._count?.comments ?? 0}</span> Comments
+					</span>
+					<span className="inline-flex items-center gap-1.5 rounded-full bg-rose-100 px-3 py-1 text-xs font-semibold text-rose-700">
+						<span>{post?._count?.likes ?? 0}</span> Likes
+					</span>
+				</div>
 			</div>
 
 			<footer className="mt-auto flex flex-col gap-2 pt-2">

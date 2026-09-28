@@ -24,6 +24,19 @@ const usePosts = create<PostsStore>()(
 						ele.id === post.id ? post : ele,
 					),
 				})),
+			upsertPost: (post: Post) =>
+				set((state) => {
+					const posts = state.posts ?? [];
+					const index = posts.findIndex((ele) => ele.id === post.id);
+
+					if (index !== -1) {
+						const updatedPosts = [...posts];
+						updatedPosts[index] = post;
+						return { posts: updatedPosts };
+					}
+
+					return { posts: [post, ...posts] };
+				}),
 			deletePost: (postId: number) =>
 				set((state) => ({
 					posts: state.posts?.filter((post) => post.id !== postId),
@@ -81,7 +94,10 @@ const usePosts = create<PostsStore>()(
 						post.id === postId
 							? {
 									...post,
-									_count: { likes: post._count.likes + 1 },
+									_count: {
+										...post._count,
+										likes: post._count.likes + 1,
+									},
 								}
 							: post,
 					),
@@ -92,7 +108,10 @@ const usePosts = create<PostsStore>()(
 						post.id === postId
 							? {
 									...post,
-									_count: { likes: post._count.likes - 1 },
+									_count: {
+										...post._count,
+										likes: post._count.likes - 1,
+									},
 								}
 							: post,
 					),

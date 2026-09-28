@@ -33,9 +33,7 @@ function useAPIRequest<T, Args extends unknown[]>(
 					return response.data;
 				}
 			} catch (error) {
-				console.log(error);
 				handleAPIErrors(error, setErrorMessage, setError);
-				throw error;
 			} finally {
 				if (
 					isMountedRef.current &&

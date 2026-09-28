@@ -1,5 +1,5 @@
 import PostComponent from "@/components/post/post";
-import { useUser, usePosts } from "@/store";
+import { useUser } from "@/store";
 import useAPIRequest from "@/hooks/apiRequest";
 import type { Post } from "@/types";
 import { postsRequest } from "@/utils/requests";
@@ -11,15 +11,14 @@ import Header from "@/components/header";
 
 function Main() {
 	const { user } = useUser();
-	const setPosts = usePosts((state) => state.setPosts);
-	const posts = usePosts((state) => state.posts);
 	const isUser = Boolean(user?.id);
 	const isAuthor = Boolean(user?.isAuthor);
 	const {
+		data: posts,
 		loading: postsLoading,
 		execute: postsExecute,
 		errorMessage,
-	} = useAPIRequest(postsRequest, undefined, setPosts);
+	} = useAPIRequest(postsRequest);
 
 	useEffect(() => {
 		postsExecute();

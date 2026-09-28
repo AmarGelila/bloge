@@ -7,6 +7,7 @@ import onlyUser from "./middleware/onlyUser.js";
 import mainRouter from "./routes/main.js";
 import { Request, Response, NextFunction } from "express";
 import path from "path";
+import { authLimiter, globalLimiter } from "./lib/rateLimiters.js";
 const app: Application = express();
 
 app.use(
@@ -16,13 +17,13 @@ app.use(
 	}),
 );
 app.use(express.json());
-
+app.use(globalLimiter);
 app.get("/openapi.yaml", (req, res) => {
 	res.sendFile(path.resolve("docs/openapi.yaml"));
 });
 app.use("/docs", express.static("docs"));
 app.use("/", mainRouter);
-app.use("/auth", authRouter);
+app.use("/auth", authLimiter, authRouter);
 app.use("/posts", onlyUser, postRouter);
 
 app.use((error: any, req: Request, res: Response, next: NextFunction) => {

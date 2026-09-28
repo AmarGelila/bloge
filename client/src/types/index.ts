@@ -26,6 +26,7 @@ export type Post = {
 	time: Date;
 	comments: Comment[];
 	_count: {
+		comments: number;
 		likes: number;
 	};
 };
@@ -56,6 +57,7 @@ export type PostsStore = {
 	setPosts: (posts: Post[] | null) => void;
 	pushPost: (post: Post) => void;
 	updatePost: (post: Post) => void;
+	upsertPost: (post: Post) => void;
 	deletePost: (postId: number) => void;
 	pushComment: (comment: Comment, postId: number) => unknown;
 	deleteComment: (postId: number, commentId: number) => unknown;

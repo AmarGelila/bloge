@@ -33,9 +33,9 @@ export default function CommentForm({
 			if (!defaultValues) {
 				reset();
 			}
+			// eslint-disable-next-line @typescript-eslint/no-unused-vars
 		} catch (error) {
 			toast.error("Unexpected error occured, try again later... ");
-			console.log(error);
 		}
 	}
 	const fieldId = defaultValues

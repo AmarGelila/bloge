@@ -1,4 +1,5 @@
 import { Request } from "express";
+import { RateLimitInfo } from "express-rate-limit";
 
 export interface SignInData {
 	email: string;
@@ -17,4 +18,8 @@ export interface GoogleProfile {
 
 export interface AuthenticatedRequest extends Request {
 	user: PublicUser;
+}
+
+export interface LimitedRequest extends Request {
+	rateLimit?: RateLimitInfo;
 }

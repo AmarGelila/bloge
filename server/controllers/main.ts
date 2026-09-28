@@ -4,7 +4,12 @@ import { AuthenticatedRequest } from "../types/index.js";
 
 async function getPosts(_: Request, res: Response) {
 	const posts = await prisma.post.findMany({
-		include: { comments: true, _count: { select: { likes: true } } },
+		select: {
+			id: true,
+			title: true,
+			time: true,
+			_count: { select: { likes: true, comments: true } },
+		},
 	});
 	res.status(200).json(posts);
 }

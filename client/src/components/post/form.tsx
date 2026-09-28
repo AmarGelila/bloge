@@ -40,9 +40,9 @@ export default function PostForm({
 			if (!defaultValues) {
 				reset({ title: "", content: "" });
 			}
+			// eslint-disable-next-line @typescript-eslint/no-unused-vars
 		} catch (error) {
 			toast.error("Unexpected error occured, try again later... ");
-			console.log(error);
 		}
 	}
 

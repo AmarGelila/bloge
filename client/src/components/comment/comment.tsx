@@ -6,7 +6,8 @@ import { useUser } from "@/store";
 import { usePosts } from "@/store";
 import { formatTimeAgo } from "@/utils/formatTime";
 import toast from "react-hot-toast";
-import { Bin, Edit } from "@/assets/icons";
+import EditBtn from "../editBtn";
+import DeleteBtn from "../deleteBtn";
 
 function Comment({ comment, isAuthor, setIsEditing }: CommentCompProps) {
 	const { user } = useUser();
@@ -25,24 +26,13 @@ function Comment({ comment, isAuthor, setIsEditing }: CommentCompProps) {
 		<li className="relative rounded-3xl border border-slate-200 bg-white/95 p-4 shadow-sm">
 			{(isAuthor || isUserComment) && (
 				<div className="flex justify-end gap-2">
-					<button
-						className="inline-flex items-center gap-1.5 rounded-full border border-red-200 bg-red-50 px-3 py-1.5 text-sm font-medium text-red-700 transition-colors hover:bg-red-100 dark:border-red-900/50 dark:bg-red-950/40 dark:text-red-400 dark:hover:bg-red-900/60"
-						type="button"
-						onClick={handleDelete}
-					>
-						<Bin />
-						Delete
-					</button>
+					<DeleteBtn handleDelete={handleDelete} />
 
 					{isUserComment && (
-						<button
-							className="inline-flex items-center gap-1.5 rounded-md border border-slate-200 px-3 py-1.5 text-sm text-slate-700 transition-colors hover:bg-slate-100 dark:text-slate-100 dark:hover:bg-slate-800"
-							type="button"
-							onClick={() => setIsEditing(comment.id)}
-						>
-							<Edit />
-							Edit
-						</button>
+						<EditBtn
+							isEditing={comment.id}
+							setIsEditing={setIsEditing}
+						/>
 					)}
 				</div>
 			)}

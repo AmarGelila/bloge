@@ -22,7 +22,6 @@ const refreshCookieOptions = {
 	maxAge: 7 * 24 * 60 * 60 * 1000,
 };
 
-console.log(refreshCookieOptions);
 async function postSignUp(req: Request, res: Response) {
 	const errors = validationResult(req);
 	if (!errors.isEmpty())
@@ -89,9 +88,7 @@ async function signOut(req: Request, res: Response) {
 }
 
 async function refreshTokens(req: Request, res: Response) {
-	console.log("Jere");
 	const oldRefreshToken = req.cookies.refreshToken;
-	console.log(oldRefreshToken);
 	if (!oldRefreshToken) {
 		return res.status(401).json({ code: "TOKEN_EXPIRED" });
 	}
@@ -102,7 +99,6 @@ async function refreshTokens(req: Request, res: Response) {
 			oldRefreshToken,
 			process.env.JWT_REFRESH_SECRET as string,
 		) as JwtPayload;
-		console.log(payload);
 	} catch {
 		res.clearCookie("refreshToken", refreshCookieOptions);
 		return res.status(401).json({ code: "TOKEN_EXPIRED" });
