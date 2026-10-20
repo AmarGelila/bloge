@@ -9,8 +9,13 @@ import type {
 	SignUpFormResponse,
 } from "../types";
 
-export const postsRequest = (signal: AbortSignal) =>
-	apiClient.get("/posts", { signal });
+export const latestPostsRequest = (signal: AbortSignal) =>
+	apiClient.get("/latest-posts", { signal });
+
+export const nextPostsRequest = (
+	signal: AbortSignal,
+	cursorId: number | null,
+) => apiAuthClient.get(`/posts?cursor=${cursorId}`, { signal });
 
 export const userRequest = (signal: AbortSignal) =>
 	apiAuthClient.get("/user", { signal });

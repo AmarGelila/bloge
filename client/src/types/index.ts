@@ -160,8 +160,7 @@ export type FormErrorObject = {
 
 export type PostCompProps = {
 	post: Post;
-	isUser: boolean;
-	isAuthor: boolean;
+	children: ReactNode;
 };
 
 export type CommentCompProps = {
